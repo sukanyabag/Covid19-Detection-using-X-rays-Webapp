@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>COVID-19 TESTING</title>
+	</head>
+
+	<body>
+		<h1>COVID-19 TESTING USING X-RAY IMAGES</h1>
+		<input id="image-selector" type="file"> 
+		<button id="predict-button">Predict</button>
+		<p>PREDICTION: <span id="result">...</span></p>
+		<p>PROBABILITY: <span id="probability">...</span></p>
+		<img id="selected-image" width="400" src=""/>
+
+	</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+    let base64Image;
+    $("#image-selector").change(function() {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let dataURL = reader.result;
+            $('#selected-image').attr("src", dataURL);
+            base64Image = dataURL.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+            console.log(base64Image);
+        }
+        reader.readAsDataURL($("#image-selector")[0].files[0]);
+        $("#result").text("");
+        $("#probability").text("");
+
+    });
+
+    $("#predict-button").click(function(){
+            let message = {
+            image: base64Image
+        }
+        console.log(message);
+        $.post("http://127.0.0.1:5000/predict", JSON.stringify(message), function(response){
+            $("#result").text(response.prediction.result);
+            $("#probability").text(response.prediction.accuracy.toFixed(2));
+            console.log(response);
+        });
+    });
+    
+</script>
+
+</html>
