@@ -7,4 +7,4 @@ Demo-
 
 
 📍NOTE 📍
-This software is solely developed for learning and research purposes and should NOT be used for medical advises/checkups.
+This software is solely developed for education, development and research purposes and should NOT be used for medical advises/checkups.
